@@ -1,0 +1,23 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "description": "payload of a device module",
+    "type": "object",
+    "required": ["type", "content"],
+    "properties": {
+	"type": {
+	    "type": "string",
+	    "pattern": "^control|info$",
+	    "description": "the type of this json message. Either control or information",
+	},
+	"content": {
+	    "oneOf": [
+		{"$ref": "./security"},
+		{"$ref": "./enviroment"},
+		{"$ref": "./speaker_led"},
+		{"$ref": "./battery"},
+		{"$ref": "./wireless"},
+	    ]
+	    "description": "content of one of device modules"
+	},
+    },
+}
