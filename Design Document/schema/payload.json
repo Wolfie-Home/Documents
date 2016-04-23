@@ -11,13 +11,21 @@
 	},
 	"content": {
 	    "oneOf": [
-		{"$ref": "./security"},
-		{"$ref": "./enviroment"},
-		{"$ref": "./speaker_led"},
-		{"$ref": "./battery"},
-		{"$ref": "./wireless"},
+		{"$ref": "./security.json"},
+		{"$ref": "./enviroment.json"},
+		{"$ref": "./speaker_led.json"},
+		{"$ref": "./battery.json"},
+		{"$ref": "./wireless.json"},
 	    ]
 	    "description": "content of one of device modules"
+	},
+	"location": {
+	    "type": "string",
+	    "description": "user friendly name of where the module resides.",
+	},
+	"mod_name": {
+	    "type": "string",
+	    "description": "user friendly name of the device module.",
 	},
     },
 }
