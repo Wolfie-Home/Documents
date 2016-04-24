@@ -6,16 +6,16 @@
     "properties": {
 	"type": {
 	    "type": "string",
-	    "pattern": "^control|info$",
+	    "enum": ["control","info"],
 	    "description": "the type of this json message. Either control or information",
 	},
 	"content": {
 	    "oneOf": [
-		{"$ref": "./security.json"},
-		{"$ref": "./enviroment.json"},
-		{"$ref": "./speaker_led.json"},
-		{"$ref": "./battery.json"},
-		{"$ref": "./wireless.json"},
+		{"$ref": "security.json"},
+		{"$ref": "enviroment.json"},
+		{"$ref": "speaker_led.json"},
+		{"$ref": "battery.json"},
+		{"$ref": "wireless.json"},
 	    ]
 	    "description": "content of one of device modules"
 	},
