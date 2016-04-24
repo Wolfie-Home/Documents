@@ -4,12 +4,12 @@
     "type": "object",
     "required": ["Led", "Ledr", "Ledg", "Ledb", "Ledp", "Spkr"],
     "properties": {
-	"Led": {"type": "integer", "minimum": 0, "maximum": 1,},
-	"Ledr": {"type": "integer", "maximum":255,},
-	"Ledg": {"type": "integer", "maximum":255,},
-	"Ledb": {"type": "integer", "maximum":255,},
-	"Ledp": {"type": "integer",},
-	"Spkr": {"type": "integer",},
+	"Led": {"type": "integer", "minimum": 0, "maximum": 1},
+	"Ledr": {"type": "integer", "maximum":255},
+	"Ledg": {"type": "integer", "maximum":255},
+	"Ledb": {"type": "integer", "maximum":255},
+	"Ledp": {"type": "integer"},
+	"Spkr": {"type": "integer"}
     }
 }
 

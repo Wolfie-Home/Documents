@@ -11,9 +11,9 @@
 		"timestamp": {
 		    "type": "string",
 		    "description": "format is YYYY-MM-DD HH:MM:SS"
-		}
+		},
 		"uid": { "type": "string" },
-		"module" {"type": "string", "description": "name of module(predefined)" },
+		"module": {"type": "string", "description": "name of module(predefined)"},
 		"content": {
 		    "oneOf": [
 			{"$ref": "security.json"},

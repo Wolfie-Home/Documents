@@ -4,8 +4,8 @@
     "type": "object",
     "required": ["Mag", "PIR", "Lgt"],
     "properties": {
-	"Mag": { "type": "integer", "minimum": 0, "maximum": 1,},
-	"PIR": {"type": "integer", "minimum": 0, "maximum": 1,},
-	"Lgt": {"type": "integer",}
+	"Mag": { "type": "integer", "minimum": 0, "maximum": 1},
+	"PIR": {"type": "integer", "minimum": 0, "maximum": 1},
+	"Lgt": {"type": "integer"}
     }
 }

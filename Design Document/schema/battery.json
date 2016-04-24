@@ -4,8 +4,8 @@
     "type": "object",
     "required": ["Btyp", "Bat"],
     "properties": {
-	"Btyp": {"type": "integer", "minimum": 0, "maximum": 1,},
-	"Bat": {"type": "integer", "minimum": 0,"maximum": 100,},
+	"Btyp": {"type": "integer", "minimum": 0, "maximum": 1},
+	"Bat": {"type": "integer", "minimum": 0,"maximum": 100}
     }
 }
 

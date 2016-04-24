@@ -4,13 +4,13 @@
     "type": "object",
     "required": ["button_numbers", "PBn"],
     "properties": {
-	"button_numbers": {"type": "integer", "minimum": "1",},
+	"button_numbers": {"type": "integer", "minimum": "1"},
 	"PBn": {
 	    "type": "array",
 	    "items": {
 	        "type": "string",
-		"minItems": 1,
-	    },
-        },
-    },
+		"minItems": 1
+	    }
+        }
+    }
 }
