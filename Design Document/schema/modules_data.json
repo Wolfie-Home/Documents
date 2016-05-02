@@ -6,7 +6,7 @@
 	"type": "array",
 	"items": {
 	    "type": "object",
-	    "required": ["timestamp", "uid", "module", "content"],
+	    "required": [, "uid", "module", "content"],
 	    "properties": {
 		"timestamp": {
 		    "type": "string",
