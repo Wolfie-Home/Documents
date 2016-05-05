@@ -1,4 +1,4 @@
-B{
+{
     "$schema": "http://json-schema.org/draft-04/schema#",
     "description": "data about a battery module",
     "type": "object",
