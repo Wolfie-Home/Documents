@@ -9,7 +9,7 @@ DROP TABLE IF EXISTS `RecordFieldValue`;
 SET FOREIGN_KEY_CHECKS = 1;
 
 CREATE TABLE `User` (
-    `Id` VARCHAR(50) NOT NULL,
+    `Id` VARCHAR(30) NOT NULL,
     `Password` VARCHAR(30) NOT NULL,
     `CreatedTime` DATETIME NOT NULL DEFAULT NOW(),
     PRIMARY KEY (`Id`),
@@ -20,7 +20,7 @@ CREATE TABLE `Location` (
     `Id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
     `Name` VARCHAR(20) NOT NULL,
     `Description` VARCHAR(50) NOT NULL,
-    `UserRef` VARCHAR(50) NOT NULL,
+    `UserRef` VARCHAR(30) NOT NULL,
     `Parent` INTEGER UNSIGNED,
     `CreatedTime` DATETIME NOT NULL DEFAULT NOW(),
     PRIMARY KEY (`Id`)
@@ -54,6 +54,7 @@ CREATE TABLE `DataField` (
     `DatafieldName` VARCHAR(10) NOT NULL,
     `Controllable` BOOLEAN NOT NULL DEFAULT false,
     `DataTypeRef` VARCHAR(8) NOT NULL,
+    `Description` VARCHAR(50) NOT NULL,
     `CreatedTime` DATETIME NOT NULL DEFAULT NOW(),
     PRIMARY KEY (`DeviceRef`, `DatafieldName`)
 );

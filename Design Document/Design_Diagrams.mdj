@@ -1513,6 +1513,30 @@
 										},
 										{
 											"_type": "ERDColumnView",
+											"_id": "AAAAAAFWrndhidBHBxs=",
+											"_parent": {
+												"$ref": "AAAAAAFWoV8AP6jI5rE="
+											},
+											"model": {
+												"$ref": "AAAAAAFWrndhQtBEkho="
+											},
+											"visible": true,
+											"enabled": true,
+											"lineColor": "#000000",
+											"fillColor": "#ffffff",
+											"fontColor": "#000000",
+											"font": "Arial;13;0",
+											"showShadow": true,
+											"containerChangeable": false,
+											"containerExtending": false,
+											"left": 821,
+											"top": 560,
+											"width": 237.42626953125,
+											"height": 13,
+											"autoResize": false
+										},
+										{
+											"_type": "ERDColumnView",
 											"_id": "AAAAAAFWq2I3L1jcW94=",
 											"_parent": {
 												"$ref": "AAAAAAFWoV8AP6jI5rE="
@@ -1530,7 +1554,7 @@
 											"containerChangeable": false,
 											"containerExtending": false,
 											"left": 821,
-											"top": 560,
+											"top": 575,
 											"width": 237.42626953125,
 											"height": 13,
 											"autoResize": false
@@ -1548,7 +1572,7 @@
 									"left": 816,
 									"top": 495,
 									"width": 247.42626953125,
-									"height": 83,
+									"height": 98,
 									"autoResize": false
 								}
 							],
@@ -2950,7 +2974,7 @@
 							},
 							"name": "Id",
 							"type": "VARCHAR",
-							"length": "50",
+							"length": "30",
 							"primaryKey": true,
 							"foreignKey": false,
 							"nullable": false,
@@ -3170,7 +3194,7 @@
 							},
 							"name": "UserRef",
 							"type": "VARCHAR",
-							"length": "50",
+							"length": "30",
 							"primaryKey": false,
 							"foreignKey": true,
 							"referenceTo": {
@@ -3697,6 +3721,20 @@
 							"referenceTo": {
 								"$ref": "AAAAAAFWoVzx96iyOQQ="
 							},
+							"nullable": false,
+							"unique": false
+						},
+						{
+							"_type": "ERDColumn",
+							"_id": "AAAAAAFWrndhQtBEkho=",
+							"_parent": {
+								"$ref": "AAAAAAFWoV8APKjEnSw="
+							},
+							"name": "Description",
+							"type": "VARCHAR",
+							"length": "50",
+							"primaryKey": false,
+							"foreignKey": false,
 							"nullable": false,
 							"unique": false
 						},
