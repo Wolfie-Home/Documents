@@ -9,76 +9,89 @@ DROP TABLE IF EXISTS `RecordFieldValue`;
 SET FOREIGN_KEY_CHECKS = 1;
 
 CREATE TABLE `User` (
-    `Id` VARCHAR(30) NOT NULL,
-    `Password` VARCHAR(30) NOT NULL,
-    `CreatedTime` DATETIME NOT NULL DEFAULT NOW(),
+    `Id` INTEGER NOT NULL AUTO_INCREMENT,
+    `UserName` VARCHAR(30) NOT NULL,
+    `Password` CHAR(128) NOT NULL,
+    `Email` VARCHAR(40) NOT NULL DEFAULT "",
+    `PassSalt` CHAR(8) NOT NULL,
+    `CreatedTime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `ModifiedTime` DATETIME NOT NULL ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`Id`),
-    UNIQUE (`Id`)
+    UNIQUE (`UserName`)
 );
 
 CREATE TABLE `Location` (
-    `Id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+    `Id` INTEGER NOT NULL AUTO_INCREMENT,
+    `UserRef` INTEGER NOT NULL,
     `Name` VARCHAR(20) NOT NULL,
-    `Description` VARCHAR(50) NOT NULL,
-    `UserRef` VARCHAR(30) NOT NULL,
-    `Parent` INTEGER UNSIGNED,
-    `CreatedTime` DATETIME NOT NULL DEFAULT NOW(),
-    PRIMARY KEY (`Id`)
+    `Description` VARCHAR(50) NOT NULL DEFAULT "",
+    `Parent` INTEGER,
+    `CreatedTime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `ModifiedTime` DATETIME NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`Id`),
+    UNIQUE (`UserRef`, `Name`)
 );
 ALTER TABLE `Location` ADD FOREIGN KEY (`UserRef`) REFERENCES `User`(`Id`);
 ALTER TABLE `Location` ADD FOREIGN KEY (`Parent`) REFERENCES `Location`(`Id`);
 
 CREATE TABLE `Device` (
-    `Id` INTEGER UNSIGNED NOT NULL,
+    `Id` INTEGER NOT NULL AUTO_INCREMENT,
+    `OwnerRef` INTEGER NOT NULL,
     `Name` VARCHAR(20) NOT NULL,
-    `Description` VARCHAR(50) NOT NULL,
-    `OwnerRef` VARCHAR(30) NOT NULL,
-    `LocationRef` INTEGER UNSIGNED,
-    `Parent` INTEGER UNSIGNED,
-    `CreatedTime` DATETIME NOT NULL DEFAULT NOW(),
-    PRIMARY KEY (`Id`)
+    `Description` VARCHAR(50) NOT NULL DEFAULT "",
+    `LocationRef` INTEGER,
+    `Parent` INTEGER,
+    `CreatedTime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `ModifiedTime` DATETIME NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`Id`),
+    UNIQUE (`OwnerRef`, `Name`)
 );
-ALTER TABLE `Device` ADD FOREIGN KEY (`LocationRef`) REFERENCES `Location`(`Id`);
 ALTER TABLE `Device` ADD FOREIGN KEY (`OwnerRef`) REFERENCES `User`(`Id`);
+ALTER TABLE `Device` ADD FOREIGN KEY (`LocationRef`) REFERENCES `Location`(`Id`);
 ALTER TABLE `Device` ADD FOREIGN KEY (`Parent`) REFERENCES `Device`(`Id`);
 
 CREATE TABLE `DataType` (
-    `TypeName` VARCHAR(8) NOT NULL,
-    `Description` VARCHAR(50) NOT NULL,
-    `CreatedTime` DATETIME NOT NULL DEFAULT NOW(),
-    PRIMARY KEY (`TypeName`)
+    `Id` INTEGER NOT NULL AUTO_INCREMENT,
+    `TypeName` VARCHAR(20) NOT NULL,
+    `Description` VARCHAR(128) NOT NULL DEFAULT "",
+    `CreatedTime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `ModifiedTime` DATETIME NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`Id`),
+    UNIQUE (`TypeName`)
 );
 
 CREATE TABLE `DataField` (
-    `DeviceRef` INTEGER UNSIGNED NOT NULL,
+    `Id` INTEGER NOT NULL AUTO_INCREMENT,
+    `DeviceRef` INTEGER NOT NULL,
     `DatafieldName` VARCHAR(10) NOT NULL,
-    `Controllable` BOOLEAN NOT NULL DEFAULT false,
-    `DataTypeRef` VARCHAR(8) NOT NULL,
-    `Description` VARCHAR(50) NOT NULL,
-    `CreatedTime` DATETIME NOT NULL DEFAULT NOW(),
-    PRIMARY KEY (`DeviceRef`, `DatafieldName`)
+    `Controllable` BOOLEAN NOT NULL,
+    `DataTypeRef` INTEGER NOT NULL,
+    `Description` VARCHAR(50) NOT NULL DEFAULT "",
+    `CreatedTime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `ModifiedTime` DATETIME NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`Id`),
+    UNIQUE (`DeviceRef`, `DatafieldName`)
 );
-ALTER TABLE `DataField` ADD FOREIGN KEY (`DeviceRef`) REFERENCES `Device`(`Id`);
-ALTER TABLE `DataField` ADD FOREIGN KEY (`DataTypeRef`) REFERENCES `DataType`(`TypeName`);
+ALTER TABLE `DataField` ADD FOREIGN KEY (`DataTypeRef`) REFERENCES `DataType`(`Id`);
+ALTER TABLE `DataField` ADD FOREIGN KEY (`DeviceRef`) REFERENCES `Device`(`OwnerRef`);
 
 CREATE TABLE `DataRecord` (
-    `Idx` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-    `DeviceRef` INTEGER UNSIGNED NOT NULL,
-    `LocationRef` INTEGER UNSIGNED,
-    `CreatedTime` DATETIME NOT NULL DEFAULT NOW(),
+    `Idx` BIGINT NOT NULL AUTO_INCREMENT,
+    `DeviceRef` INTEGER NOT NULL,
+    `LocationRef` INTEGER,
+    `CreatedTime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`Idx`)
 );
 ALTER TABLE `DataRecord` ADD FOREIGN KEY (`LocationRef`) REFERENCES `Location`(`Id`);
 ALTER TABLE `DataRecord` ADD FOREIGN KEY (`DeviceRef`) REFERENCES `Device`(`Id`);
 
 CREATE TABLE `RecordFieldValue` (
-    `Idx` INTEGER NOT NULL AUTO_INCREMENT,
-    `RecordRef` INTEGER UNSIGNED NOT NULL,
-    `DeviceRef` INTEGER UNSIGNED NOT NULL,
+    `Idx` BIGINT NOT NULL AUTO_INCREMENT,
+    `RecordRef` BIGINT NOT NULL,
+    `DeviceRef` INTEGER,
     `DataFieldNameRef` VARCHAR(10) NOT NULL,
-    `Value` VARCHAR(50) NOT NULL,
-    `CreatedTime` DATETIME NOT NULL DEFAULT NOW(),
+    `Value` VARCHAR(30) NOT NULL,
     PRIMARY KEY (`Idx`)
 );
-ALTER TABLE `RecordFieldValue` ADD FOREIGN KEY (`DeviceRef`, `DataFieldNameRef`) REFERENCES `DataField`(`DeviceRef`,`DatafieldName`);
 ALTER TABLE `RecordFieldValue` ADD FOREIGN KEY (`RecordRef`) REFERENCES `DataRecord`(`Idx`);
+ALTER TABLE `RecordFieldValue` ADD FOREIGN KEY (`DeviceRef`,`DataFieldNameRef`) REFERENCES `DataField`(`DeviceRef`,`DatafieldName`);
