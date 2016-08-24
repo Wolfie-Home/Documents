@@ -34,25 +34,22 @@ The following topology illustrates the idea:![Overview](overview.jpeg)
 
 In the table blow, “type” is used for topics of message. There are five types of modules: *security*, *environment\_sensing*, *speaker\_and\_led*, *battery*, *wireless*. These name should be
 
-| \#  | Component | Data type                               | controllable | Module type                | Description                                                                                    |
-|-----|-----------|-----------------------------------------|--------------|----------------------------|------------------------------------------------------------------------------------------------|
-| 1   | Mag       | 0=closed, 1=open                        |              | Security module            | Magnet reed sensor, used to detect if a door is open or not                                    |
-| 2   | PIR       | 1=present, 0=absent                     |              | Security module            | PIR motion detector. Once it detected it will not updated for maximum 30 sec                   |
-| 3   | Lgt       | Integer                                 |              | Security module            | Ambient light sensor                                                                           |
-| 4   | Hum       | Integer                                 |              | Environment sensing module | Humidity Sensor.                                                                               |
-| 5   | Tmp       | Integer                                 |              | Environment sensing module | Contactless infrared temperature sensor                                                        |
-| 6   | Bar       | Integer                                 |              | Environment sensing module | Barometric Pressure sensor                                                                     |
-| 7   | Led       | 0 = led off, 1 = led on                 | O            | Speaker & Led moudle       | Color LED on/off                                                                               |
-| 8   | Ledr      | Integer (max 255)                       | O            | Speaker & led module       | Color Led Red color. The module also sends data when this value updated by LED preset color    |
-| 9   | Ledg      | Integer (max 255)                       | O            | Speaker & led module       | Color led Green color. The module also sends data when this value updated by LED preset color  |
-| 10  | Ledb      | Integer (max 255)                       | O            | Speaker & led module       | Color led blue color. The module also sends data when this value updated by LED preset color                          |
-| 11  | Ledp      | \# of preset color, 0 = the current color is none of preset  | O  | Speaker & led module       | Number more than 0 indicates pre-defined color (e.g., 2 = RED, 3 = Violet....)                 |
-| 12  | Spkr      | 0 = off, Else = preset of bells    | O            | Speaker & led module       | Speaker. Number more than 0 indicate pre-defined music stored in the SD card (1.wav, 2.wav...) |
-| 13  | Btyp      | 0 = 1s lipo, 1 = coin cell,  2 = 2\*AA  |              | Battery module             | Kinds of battery                                                                               |
-| 14  | Bat       | Integer   0 to 100                                 |              | Battery module             | Percentage of remaining battery                                                                |
-| 15  | PB1       | 1 = on, 0 = off                                  |              | Wireless module            |                                                                                                |
-| 16  | PB2       | 1 = on,   0 = off                                  |              | Wireless module            |                                                                                                |
-| 17  | PB3       | 1 = on,   0 = off                                  |              | Wireless module            |                                                                                                |
+| Device | DataField | Data type                                                   | control? | Description                                                                                    |
+|--------|-----------|-------------------------------------------------------------|----------|------------------------------------------------------------------------------------------------|
+| SW     | switch    |Integer. 0 = off , 1 = on(triggered)                         |          | Generic switch (Can be pushbutton, reed magnet, PIR motion sensor etc. )                       |
+| RCSW   | switch    |Integer. 0 = off , 1 = on(triggered)                         | O        | Generic remote controllable switch                                                             |
+| Lux    | lux       |Integer. In lux                                              |          | Ambient light sensor                                                                           |
+| Hum    | percent   |Integer. In percenatge (Max 100)                             |          | Humidity Sensor.                                                                               |
+| Tmp    | degree    |Integer. In Celsius                                          |          | Contactless infrared temperature sensor                                                        |
+| Baro   | pressure  |Integer                                                      |          | Barometric Pressure sensor                                                                     |
+|        | altitude  |Integer                                                      |          | Altitude derived from pressure.                                                                |
+| Light  | onoff     |Integer. 0 = led off, 1 = led on, 2 = blink                  | O        | Generic light switch.                                                                          |
+|        | red       |Integer (max 255)                                            | O        | Color Led Red color. The module also sends data when this value updated by LED preset color    |
+|        | green     |Integer (max 255)                                            | O        | Color led Green color. The module also sends data when this value updated by LED preset color  |
+|        | blue      |Integer (max 255)                                            | O        | Color led blue color. The module also sends data when this value updated by LED preset color   |
+|        | preset    |Integer. 0 = none, others = preset \# of colors              | O        | Number more than 0 indicates pre-defined color (e.g., 2 = RED, 3 = Violet....)                 |
+| Spkr   | preset    |Integer. 0 = off, Else = preset of bells                     | O        | Speaker. Number more than 0 indicate pre-defined music stored in the SD card (1.wav, 2.wav...) |
+| Batt   | percent   |Integer. 0 to 100                                            |          | Percentage of remaining battery                                                                |
 
 
 

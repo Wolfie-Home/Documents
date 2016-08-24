@@ -1,0 +1,14 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "description": "data about an environment module",
+    "type": "object",
+    "required": ["onoff", "red", "green", "blue", "preset"],
+    "properties": {
+		"onoff": {"type": "integer", "minimum": 0, "maximum": 2},
+		"red": {"type": "integer", "maximum":255},
+		"green": {"type": "integer", "maximum":255},
+		"blue": {"type": "integer", "maximum":255},
+		"preset": {"type": "integer"}
+    }
+}
+
