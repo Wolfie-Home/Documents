@@ -1,3 +1,19 @@
+/* =============================================
+-- MySQL code: Create_tables.sql
+-- 
+-- Author: Bumsik Kim        
+-- Create date: 8/23/2016
+-- Updated history:
+-- Description: Create tables for `wolfie_home` database.
+-- Example:
+--      mysql -u [username] -p [password] < Create_talbes.sql
+-- 
+-- =============================================  */
+
+USE `wolfie_home`;
+-- TODO: Character set. We need to change to utf8mb4_general_ci or utf8mb4_unicode_ci later
+ALTER DATABASE wolfie_home CHARACTER SET latin1 COLLATE latin1_general_ci;
+
 SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `User`;
 DROP TABLE IF EXISTS `Location`;
@@ -15,7 +31,7 @@ CREATE TABLE `User` (
     `Email` VARCHAR(40) NOT NULL DEFAULT "",
     `PassSalt` CHAR(8) NOT NULL,
     `CreatedTime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `ModifiedTime` DATETIME NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+    `ModifiedTime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`Id`),
     UNIQUE (`UserName`)
 );
@@ -24,10 +40,10 @@ CREATE TABLE `Location` (
     `Id` INTEGER NOT NULL AUTO_INCREMENT,
     `UserRef` INTEGER NOT NULL,
     `Name` VARCHAR(20) NOT NULL,
-    `Description` VARCHAR(50) NOT NULL DEFAULT "",
     `Parent` INTEGER,
+    `Description` VARCHAR(50) NOT NULL DEFAULT "",
     `CreatedTime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `ModifiedTime` DATETIME NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+    `ModifiedTime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`Id`),
     UNIQUE (`UserRef`, `Name`)
 );
@@ -38,11 +54,11 @@ CREATE TABLE `Device` (
     `Id` INTEGER NOT NULL AUTO_INCREMENT,
     `OwnerRef` INTEGER NOT NULL,
     `Name` VARCHAR(20) NOT NULL,
-    `Description` VARCHAR(50) NOT NULL DEFAULT "",
     `LocationRef` INTEGER,
     `Parent` INTEGER,
+    `Description` VARCHAR(50) NOT NULL DEFAULT "",
     `CreatedTime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `ModifiedTime` DATETIME NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+    `ModifiedTime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`Id`),
     UNIQUE (`OwnerRef`, `Name`)
 );
@@ -55,7 +71,7 @@ CREATE TABLE `DataType` (
     `TypeName` VARCHAR(20) NOT NULL,
     `Description` VARCHAR(128) NOT NULL DEFAULT "",
     `CreatedTime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `ModifiedTime` DATETIME NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+    `ModifiedTime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`Id`),
     UNIQUE (`TypeName`)
 );
@@ -68,7 +84,7 @@ CREATE TABLE `DataField` (
     `DataTypeRef` INTEGER NOT NULL,
     `Description` VARCHAR(50) NOT NULL DEFAULT "",
     `CreatedTime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `ModifiedTime` DATETIME NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+    `ModifiedTime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`Id`),
     UNIQUE (`DeviceRef`, `DatafieldName`)
 );
