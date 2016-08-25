@@ -2,7 +2,7 @@
     "$schema": "http://json-schema.org/draft-04/schema#",
     "description": "payload of a device module",
     "type": "object",
-    "required": ["type", "content"],
+    "required": ["type", "content", "device"],
     "properties": {
 	"type": {
 	    "type": "string",
@@ -11,19 +11,27 @@
 	},
 	"content": {
 	    "oneOf": [
-		{"$ref": "security.json"},
-		{"$ref": "enviroment.json"},
-		{"$ref": "speaker_led.json"},
-		{"$ref": "battery.json"},
-		{"$ref": "wireless.json"}
+		{"$ref": "_Baro.json"},
+		{"$ref": "_Batt.json"},
+		{"$ref": "_Hum.json"},
+		{"$ref": "_Light.json"},
+		{"$ref": "_Lux.json"},
+		{"$ref": "_RCSW.json"},
+		{"$ref": "_Spkr.json"},
+		{"$ref": "_SW.json"},
+		{"$ref": "_Tmp.json"}
 	    ],
-	    "description": "content of one of device modules"
+	    "description": "content of one of device"
+	},
+	"user": {
+	    "type": "string",
+	    "description": "username in Wolfie-home web app."
 	},
 	"location": {
 	    "type": "string",
 	    "description": "user friendly name of where the module resides."
 	},
-	"mod_name": {
+	"device": {
 	    "type": "string",
 	    "description": "user friendly name of the device module."
 	}
