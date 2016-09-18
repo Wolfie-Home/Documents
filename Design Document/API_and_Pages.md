@@ -63,19 +63,19 @@ Even though it won't be mentioned below all responses include
 {
     'locations': [
         {
-            'id': id of house/room,             
+            'id': id of house/room,
             'name': 'name of house/room',
             'description': 'description of the house/room',
             'house_id': id of house where room located, can be null  
         },
         {
-            'id': id of house/room,             
+            'id': id of house/room,
             'name': 'name of house/room',
             'description': 'description of the house/room',
             'house_id': id of house where room located, can be null  
         },
         ...
-    ]                                                                      
+    ]
 } 
 ```
 
@@ -90,16 +90,16 @@ Even though it won't be mentioned below all responses include
             'id': id of device,             
             'name': 'friendly name user has defined (e.g. LED4)',
             'mother_id': id of motherboard device (like arduino), can be null,
-            'location_id': 'name of location where device is, can be null',   
+            'location_id': 'name of location where device is, can be null',
         },
         {
             'id': id of device,             
             'name': 'friendly name user has defined (e.g. LED4)',
             'mother_id': id of motherboard device (like arduino), can be null,
-            'location_id': 'name of location where device is, can be null',  
+            'location_id': 'name of location where device is, can be null',
         },
         ...
-    ]                                                                           
+    ]
 } 
 ```
 
@@ -108,24 +108,34 @@ Even though it won't be mentioned below all responses include
 ------------------------------
 - Response:
 ``` JavaScript
-{                                                                               
-    'id': unique identifer from devices in getUserInfo api,             
-    'name': 'friendly name user has defined (e.g. LED4)',                                 
+{
+    'id': unique identifer from devices in getUserInfo api,
+    'name': 'friendly name user has defined (e.g. LED4)',
     'class': 'class (or type) of device (e.g. LED)',
     'description': 'description of device',
     'mother_id': id of motherboard (like arduino), can be null,
     'location': 'id of location where device is, can be null', 
-    'location_id': 'name of location where device is, can be null',                                                  
-    'time': 'time when value was recorded',                                     
-    'values': {                                                                       
-        'param1': 'string value', integer, or float,                                                         
+    'location_id': 'name of location where device is, can be null',
+    'time': 'time when value was recorded',
+    'values': {
+        'param1': 'string value', integer, or float,
         'param2': 'string value', integer, or float,
-        ...                                                         
-        'paramN': 'string value', integer, or float,                                               
-    }                                                                                                                                                 
-}   
+        ...
+        'paramN': 'string value', integer, or float,
+    }
+}
 ```
 
 **5.4 `GET /api/device/<id>/<parameter>`**
 ------------------------------------------
+- Response:
+``` JavaScript
+{
+    'name': 'name of parameter',
+    'device_id': 'Id of device',
+    'device_name': 'name of device'
+    'values': [list of values can be 'string value', integer, or float],
+    'time': [list of time recorded, index is shard with 'value' list]
+}   
+```
 
