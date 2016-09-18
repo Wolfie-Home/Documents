@@ -36,8 +36,8 @@ All response includes `msg` and `errmsg` field for messaging/debugging.
 | URL                             | Method | Short Description                                |
 |---------------------------------|--------|--------------------------------------------------|
 | `/api/login`                    | POST   | login                                            |
+| `/api/login`                    | GET    | Get info of current user in session              |
 | `/api/logout`                   | POST   | logout                                           |
-| `/api/current_user`             | GET    | Get info of current user                         |
 | `/api/location`                 | GET    | list all locations (house and rooms) of a user   |
 | `/api/location`                 | POST   | create a new location                            |
 | `/api/location/<id>`            | GET    | get detail of location #id                       |
@@ -57,7 +57,7 @@ Even though it won't be mentioned below all responses include
 `msg` and `errmsg` field for messaging/debugging.
 
 
-**5.1 `GET /api/current_user`**
+**5.1 `GET /api/login`**
 ---------------------------
 - Response:
 ``` JavaScript
