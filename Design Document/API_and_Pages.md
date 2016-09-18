@@ -37,6 +37,7 @@ All response includes `msg` and `errmsg` field for messaging/debugging.
 |---------------------------------|--------|--------------------------------------------------|
 | `/api/login`                    | POST   | login                                            |
 | `/api/logout`                   | POST   | logout                                           |
+| `/api/current_user`             | GET    | Get info of current user                         |
 | `/api/location`                 | GET    | list all locations (house and rooms) of a user   |
 | `/api/location`                 | POST   | create a new location                            |
 | `/api/location/<id>`            | GET    | get detail of location #id                       |
@@ -56,7 +57,18 @@ Even though it won't be mentioned below all responses include
 `msg` and `errmsg` field for messaging/debugging.
 
 
-**5.1 `GET /api/location`**
+**5.1 `GET /api/current_user`**
+---------------------------
+- Response:
+``` JavaScript
+{
+    'username': 'name',
+    'email': 'email of user',
+    'last_login': 'last login time'
+} 
+```
+
+**5.2 `GET /api/location`**
 ---------------------------
 - Response:
 ``` JavaScript
@@ -80,7 +92,7 @@ Even though it won't be mentioned below all responses include
 ```
 
 
-**5.2 `GET /api/device`**
+**5.3 `GET /api/device`**
 -------------------------
 - Response:
 ``` JavaScript
@@ -104,7 +116,7 @@ Even though it won't be mentioned below all responses include
 ```
 
 
-**5.3 `GET /api/device/<id>`**
+**5.4 `GET /api/device/<id>`**
 ------------------------------
 - Response:
 ``` JavaScript
@@ -126,7 +138,7 @@ Even though it won't be mentioned below all responses include
 }
 ```
 
-**5.4 `GET /api/device/<id>/<parameter>`**
+**5.5 `GET /api/device/<id>/<parameter>`**
 ------------------------------------------
 - Response:
 ``` JavaScript
