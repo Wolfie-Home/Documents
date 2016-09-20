@@ -34,7 +34,7 @@ failed response is `HTTP 400 BAD REQUEST`.
 All response includes `msg` and `errmsg` field for messaging/debugging.
 
 | URL                                  | Method | Short Description                                |
-|--------------------------------------|--------|--------------------------------------------------|
+|--------------------------------------|:-------|--------------------------------------------------|
 | `/api/login`                         | POST   | login                                            |
 | `/api/login`                         | GET    | Get info of current user in session              |
 | `/api/logout`                        | POST   | logout                                           |
@@ -56,7 +56,7 @@ All response includes `msg` and `errmsg` field for messaging/debugging.
 ==================
 
 | URL                                  | Method | Short Description                                |
-|--------------------------------------|--------|--------------------------------------------------|
+|--------------------------------------|:-------|--------------------------------------------------|
 | `/dev_api/device`                    | POST   | Store new data entries of device                 |
 
 
@@ -65,8 +65,7 @@ All response includes `msg` and `errmsg` field for messaging/debugging.
 Even though it won't be mentioned below all responses include 
 `msg` and `errmsg` field for messaging/debugging.
 
-
-**6.1 `GET /api/login`**
+**`GET /api/login`**
 ---------------------------
 - Response:
 ``` JavaScript
@@ -77,7 +76,7 @@ Even though it won't be mentioned below all responses include
 } 
 ```
 
-**6.2 `GET /api/location`**
+**`GET /api/location`**
 ---------------------------
 - Response:
 ``` JavaScript
@@ -100,8 +99,34 @@ Even though it won't be mentioned below all responses include
 } 
 ```
 
+**`GET /api/location/<id>`**
+---------------------------
+- Response:
+``` JavaScript
+{
+    'id': id of house/room,
+    'name': 'name of house/room',
+    'description': 'description of the house/room',
+    'house_id': id of house where room located, can be null
+    'house_name': name of house.
+    'rooms': [  // if it is a room, there won't be list.
+        {
+            'id': id of house/room,
+            'name': 'name of house/room',
+            'description': 'description of the house/room'  
+        },
+        {
+            'id': id of house/room,
+            'name': 'name of house/room',
+            'description': 'description of the house/room'  
+        },
+        ...
+    ]
+} 
+```
 
-**6.3 `GET /api/location/<id>/device`**
+
+**`GET /api/location/<id>/device`**
 ---------------------------
 > When you set `<id>` as 0, the server will return list of devices
 > that are not placed in any location (meaning location_id = Null).
@@ -129,7 +154,7 @@ Even though it won't be mentioned below all responses include
 
 
 
-**6.3 `GET /api/device`**
+**`GET /api/device`**
 -------------------------
 - Response:
 ``` JavaScript
@@ -153,7 +178,7 @@ Even though it won't be mentioned below all responses include
 ```
 
 
-**6.4 `GET /api/device/<id>`**
+**`GET /api/device/<id>`**
 ------------------------------
 - Response:
 ``` JavaScript
@@ -165,10 +190,22 @@ Even though it won't be mentioned below all responses include
     'mother_id': id of motherboard (like arduino), can be null,
     'location': 'id of location where device is, can be null', 
     'location_id': 'name of location where device is, can be null'
+    'childs': [
+        {
+            'id': id of child device,             
+            'name': 'friendly name user has defined (e.g. LED4)',
+            'location_id': 'name of location where device is, can be null',
+        },
+        {
+            'id': id of child device,             
+            'name': 'friendly name user has defined (e.g. LED4)',
+            'location_id': 'name of location where device is, can be null',
+        },
+    ]
 }
 ```
 
-**6.5 `GET /api/device/<id>/parameter`**
+**`GET /api/device/<id>/parameter`**
 ------------------------------
 - Response:
 ``` JavaScript
@@ -184,18 +221,17 @@ Even though it won't be mentioned below all responses include
         'Green': 260,
         'temp': 22.4,
         'msg': 'Hello world?'
-        }
+    }
     'time': {
         'switch': '2016-09-20 09:28:47.648621',
         'Green': '2016-09-21 07:28:47.648621',
         'temp': '2016-09-20 09:28:47.648621',
         'msg': '2016-09-22 09:28:47.648621'
-        }
     }
 }
 ```
 
-**6.6 `GET /api/device/<id>/parameter/<parameter>`**
+**`GET /api/device/<id>/parameter/<parameter>`**
 ------------------------------------------
 - Response:
 ``` JavaScript
