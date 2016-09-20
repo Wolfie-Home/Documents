@@ -23,8 +23,8 @@ The list of URLs of webpages is the following:
 | `/device/<id>`             | Detailed view of a device, you can control device here. Some statistical data of the device are also shown here. |
 | `/device/<id>/<parameter>` | See all history of one parameter of a device.           |
 
-**4 API list**
-==============
+**4 Web API list**
+==================
 
 The APIs are HTTP reqeusts.
 All HTTP request should be `Content-Type: application/json`.
@@ -33,31 +33,39 @@ Unless otherwise specified, all successful response is `HTTP 200 OK`, and all
 failed response is `HTTP 400 BAD REQUEST`.
 All response includes `msg` and `errmsg` field for messaging/debugging.
 
-| URL                             | Method | Short Description                                |
-|---------------------------------|--------|--------------------------------------------------|
-| `/api/login`                    | POST   | login                                            |
-| `/api/login`                    | GET    | Get info of current user in session              |
-| `/api/logout`                   | POST   | logout                                           |
-| `/api/location`                 | GET    | list all locations (house and rooms) of a user   |
-| `/api/location`                 | POST   | create a new location                            |
-| `/api/location/<id>`            | GET    | get detail of location #id                       |
-| `/api/location/<id>`            | PUT    | change detail of location (such as name)         |
-| `/api/location/<id>`            | DELETE | delete location                                  |
-| `/api/device`                   | GET    | get all list of devices of a user                |
-| `/api/device`                   | POST   | create a new device                              |
-| `/api/device/<id>`              | GET    | show detail of device #id                        |
-| `/api/device/<id>`              | PUT    | Update detail of device (such as name)           |
-| `/api/device/<id>`              | DELETE | Delete a device                                  |
-| `/api/device/<id>/<parameter>`  | GET    | Get all records of a parameter of device #id (e.g. `/api/device/1/temp` will show all records of temp)   |
+| URL                                  | Method | Short Description                                |
+|--------------------------------------|--------|--------------------------------------------------|
+| `/api/login`                         | POST   | login                                            |
+| `/api/login`                         | GET    | Get info of current user in session              |
+| `/api/logout`                        | POST   | logout                                           |
+| `/api/location`                      | GET    | list all locations (house and rooms) of a user   |
+| `/api/location`                      | POST   | create a new location                            |
+| `/api/location/<id>`                 | GET    | get detail of location #id                       |
+| `/api/location/<id>`                 | PUT    | change detail of location (such as name)         |
+| `/api/location/<id>`                 | DELETE | delete location                                  |
+| `/api/device`                        | GET    | get all list of devices of a user                |
+| `/api/device`                        | POST   | create a new device                              |
+| `/api/device/<id>`                   | GET    | show detail of device #id                        |
+| `/api/device/<id>`                   | PUT    | Update detail of device (such as name)           |
+| `/api/device/<id>`                   | DELETE | Delete a device                                  |
+| `/api/device/<id>/parameter`         | GET    | Get list of parameters of a device, with the latest values            |
+| `/api/device/<id>/parameter/<name>`  | GET    | Get all records of a parameter of device #id (e.g. `/api/device/1/temp` will show all records of temp)   |
+
+**4 Device API list**
+==================
+
+| URL                                  | Method | Short Description                                |
+|--------------------------------------|--------|--------------------------------------------------|
+| `/dev_api/device`                    | POST   | Store new data entries of device                 |
 
 
-**5 API Detail**
+**6 Web API Detail**
 ==============
 Even though it won't be mentioned below all responses include 
 `msg` and `errmsg` field for messaging/debugging.
 
 
-**5.1 `GET /api/login`**
+**6.1 `GET /api/login`**
 ---------------------------
 - Response:
 ``` JavaScript
@@ -68,7 +76,7 @@ Even though it won't be mentioned below all responses include
 } 
 ```
 
-**5.2 `GET /api/location`**
+**6.2 `GET /api/location`**
 ---------------------------
 - Response:
 ``` JavaScript
@@ -92,7 +100,7 @@ Even though it won't be mentioned below all responses include
 ```
 
 
-**5.3 `GET /api/device`**
+**6.3 `GET /api/device`**
 -------------------------
 - Response:
 ``` JavaScript
@@ -116,7 +124,7 @@ Even though it won't be mentioned below all responses include
 ```
 
 
-**5.4 `GET /api/device/<id>`**
+**6.4 `GET /api/device/<id>`**
 ------------------------------
 - Response:
 ``` JavaScript
@@ -127,25 +135,43 @@ Even though it won't be mentioned below all responses include
     'description': 'description of device',
     'mother_id': id of motherboard (like arduino), can be null,
     'location': 'id of location where device is, can be null', 
-    'location_id': 'name of location where device is, can be null',
-    'time': 'time when value was recorded',
-    'values': {
-        'param1': 'string value', integer, or float,
-        'param2': 'string value', integer, or float,
-        ...
-        'paramN': 'string value', integer, or float,
+    'location_id': 'name of location where device is, can be null'
+}
+```
+
+**6.5 `GET /api/device/<id>/parameter`**
+------------------------------
+- Response:
+``` JavaScript
+{
+    'parameters': [
+        {"name": "switch", "type": "boolean", "controllable": false, "description": "Default switch"},
+        {"name": "Green", "type": "integer", "controllable": true, "description": "Default greed color value"},
+        {"name": "temp", "type": "number", "controllable": false, "description": "Default temperature value"},
+        {"name": "msg", "type": "string", "controllable": true, "description": "Default messages to device"}
+        ]
+    'value': {
+        'switch': True,
+        'Green': 260,
+        'temp': 22.4,
+        'msg': 'Hello world?'
+        }
+    'time': {
+        'switch': '2016-09-20 09:28:47.648621',
+        'Green': '2016-09-21 07:28:47.648621',
+        'temp': '2016-09-20 09:28:47.648621',
+        'msg': '2016-09-22 09:28:47.648621'
+        }
     }
 }
 ```
 
-**5.5 `GET /api/device/<id>/<parameter>`**
+**6.6 `GET /api/device/<id>/parameter/<parameter>`**
 ------------------------------------------
 - Response:
 ``` JavaScript
 {
-    'name': 'name of parameter',
-    'device_id': 'Id of device',
-    'device_name': 'name of device'
+    'parameter': {"name": "temp", "type": "number", "controllable": false, "description": "Default temperature value"}
     'values': [list of values can be 'string value', integer, or float],
     'time': [list of time recorded, index is shard with 'value' list]
 }   
