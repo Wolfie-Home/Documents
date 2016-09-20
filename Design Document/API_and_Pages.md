@@ -43,6 +43,7 @@ All response includes `msg` and `errmsg` field for messaging/debugging.
 | `/api/location/<id>`                 | GET    | get detail of location #id                       |
 | `/api/location/<id>`                 | PUT    | change detail of location (such as name)         |
 | `/api/location/<id>`                 | DELETE | delete location                                  |
+| `/api/location/<id>/device`          | GET    | Get list of devices placed in the location       |
 | `/api/device`                        | GET    | get all list of devices of a user                |
 | `/api/device`                        | POST   | create a new device                              |
 | `/api/device/<id>`                   | GET    | show detail of device #id                        |
@@ -51,7 +52,7 @@ All response includes `msg` and `errmsg` field for messaging/debugging.
 | `/api/device/<id>/parameter`         | GET    | Get list of parameters of a device, with the latest values            |
 | `/api/device/<id>/parameter/<name>`  | GET    | Get all records of a parameter of device #id (e.g. `/api/device/1/temp` will show all records of temp)   |
 
-**4 Device API list**
+**5 Device API list**
 ==================
 
 | URL                                  | Method | Short Description                                |
@@ -98,6 +99,34 @@ Even though it won't be mentioned below all responses include
     ]
 } 
 ```
+
+
+**6.3 `GET /api/location/<id>/device`**
+---------------------------
+> When you set `<id>` as 0, the server will return list of devices
+> that are not placed in any location (meaning location_id = Null).
+
+- Response:
+``` JavaScript
+{
+    'devices': [
+        {
+            'id': id of device,             
+            'name': 'friendly name user has defined (e.g. LED4)',
+            'mother_id': id of motherboard device (like arduino), can be null,
+            'location_id': 'name of location where device is, can be null',
+        },
+        {
+            'id': id of device,             
+            'name': 'friendly name user has defined (e.g. LED4)',
+            'mother_id': id of motherboard device (like arduino), can be null,
+            'location_id': 'name of location where device is, can be null',
+        },
+        ...
+    ]
+} 
+```
+
 
 
 **6.3 `GET /api/device`**
