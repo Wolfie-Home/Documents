@@ -211,23 +211,19 @@ Even though it won't be mentioned below all responses include
 ``` JavaScript
 {
     'parameters': [
-        {"name": "switch", "type": "boolean", "controllable": false, "description": "Default switch"},
-        {"name": "Green", "type": "integer", "controllable": true, "description": "Default greed color value"},
-        {"name": "temp", "type": "number", "controllable": false, "description": "Default temperature value"},
-        {"name": "msg", "type": "string", "controllable": true, "description": "Default messages to device"}
-        ]
-    'value': {
-        'switch': True,
-        'Green': 260,
-        'temp': 22.4,
-        'msg': 'Hello world?'
-    }
-    'time': {
-        'switch': '2016-09-20 09:28:47.648621',
-        'Green': '2016-09-21 07:28:47.648621',
-        'temp': '2016-09-20 09:28:47.648621',
-        'msg': '2016-09-22 09:28:47.648621'
-    }
+        {"name": "switch", "type": "boolean", "controllable": false, 
+            "description": "Default switch", 
+            "value": True, "time": '2016-09-20 09:28:47.648621'},
+        {"name": "Green", "type": "integer", "controllable": true, 
+            "description": "Default greed color value",
+            "value": Green, "time": '2016-09-21 07:28:47.648621'},
+        {"name": "temp", "type": "number", "controllable": false,
+            "description": "Default temperature value",
+            "value": 22.4, "time" = '2016-09-20 09:28:47.648621'},
+        {"name": "msg", "type": "string", "controllable": true, 
+            "description": "Default messages to device",
+            "value": 'Hello world?', "time": '2016-09-22 09:28:47.648621'}
+    ]
 }
 ```
 
@@ -236,9 +232,11 @@ Even though it won't be mentioned below all responses include
 - Response:
 ``` JavaScript
 {
-    'parameter': {"name": "temp", "type": "number", "controllable": false, "description": "Default temperature value"}
+    'parameter': {"name": "temp", "type": "number", "controllable": false, 
+        "description": "Default temperature value"
+        "value": 22.4, "time" = '2016-09-20 09:28:47.648621'} // Here value and time means the latest value and time captured.
     'values': [list of values can be 'string value', integer, or float],
-    'time': [list of time recorded, index is shard with 'value' list]
+    'times': [list of time recorded, index is shard with 'value' list]
 }   
 ```
 
