@@ -190,7 +190,7 @@ Even though it won't be mentioned below all responses include
     'mother_id': id of motherboard (like arduino), can be null,
     'location': 'id of location where device is, can be null', 
     'location_id': 'name of location where device is, can be null'
-    'childs': [
+    'children': [
         {
             'id': id of child device,             
             'name': 'friendly name user has defined (e.g. LED4)',
