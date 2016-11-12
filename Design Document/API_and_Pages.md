@@ -23,8 +23,8 @@ The list of URLs of webpages is the following:
 | `/device/<id>`             | Detailed view of a device, you can control device here. Some statistical data of the device are also shown here. |
 | `/device/<id>/<parameter>` | See all history of one parameter of a device.           |
 
-**4 API list**
-==============
+**4 Web API list**
+==================
 
 The APIs are HTTP reqeusts.
 All HTTP request should be `Content-Type: application/json`.
@@ -33,32 +33,65 @@ Unless otherwise specified, all successful response is `HTTP 200 OK`, and all
 failed response is `HTTP 400 BAD REQUEST`.
 All response includes `msg` and `errmsg` field for messaging/debugging.
 
-| URL                             | Method | Short Description                                |
-|---------------------------------|--------|--------------------------------------------------|
-| `/api/login`                    | POST   | login                                            |
-| `/api/login`                    | GET    | Get info of current user in session              |
-| `/api/logout`                   | POST   | logout                                           |
-| `/api/location`                 | GET    | list all locations (house and rooms) of a user   |
-| `/api/location`                 | POST   | create a new location                            |
-| `/api/location/<id>`            | GET    | get detail of location #id                       |
-| `/api/location/<id>`            | PUT    | change detail of location (such as name)         |
-| `/api/location/<id>`            | DELETE | delete location                                  |
-| `/api/device`                   | GET    | get all list of devices of a user                |
-| `/api/device`                   | POST   | create a new device                              |
-| `/api/device/<id>`              | GET    | show detail of device #id                        |
-| `/api/device/<id>`              | PUT    | Update detail of device (such as name)           |
-| `/api/device/<id>`              | DELETE | Delete a device                                  |
-| `/api/device/<id>/<parameter>`  | GET    | Get all records of a parameter of device #id (e.g. `/api/device/1/temp` will show all records of temp)   |
+| URL                                  | Method | Short Description                                |
+|--------------------------------------|:-------|--------------------------------------------------|
+| `/api/login`                         | POST   | login                                            |
+| `/api/login`                         | GET    | Get info of current user in session              |
+| `/api/logout`                        | POST   | logout                                           |
+| `/api/location`                      | GET    | list all locations (house and rooms) of a user   |
+| `/api/location`                      | POST   | create a new location                            |
+| `/api/location/<id>`                 | GET    | get detail of location #id                       |
+| `/api/location/<id>`                 | PUT    | change detail of location (such as name)         |
+| `/api/location/<id>`                 | DELETE | delete location                                  |
+| `/api/location/<id>/device`          | GET    | Get list of devices placed in the location       |
+| `/api/device`                        | GET    | get all list of devices of a user                |
+| `/api/device`                        | POST   | create a new device                              |
+| `/api/device/<id>`                   | GET    | show detail of device #id                        |
+| `/api/device/<id>`                   | PUT    | Update detail of device (such as name)           |
+| `/api/device/<id>`                   | DELETE | Delete a device                                  |
+| `/api/device/<id>/parameter`         | GET    | Get list of parameters of a device, with the latest values            |
+| `/api/device/<id>/parameter/<name>`  | GET    | Get all records of a parameter of device #id (e.g. `/api/device/1/temp` will show all records of temp)   |
+
+**5 Device API list**
+==================
+
+| URL                                  | Method | Short Description                                |
+|--------------------------------------|:-------|--------------------------------------------------|
+| `/dev_api/device`                    | POST   | Store new data entries of device                 |
 
 
-**5 API Detail**
+**6 Web API Detail**
 ==============
 Even though it won't be mentioned below all responses include 
 `msg` and `errmsg` field for messaging/debugging.
 
-
-**5.1 `GET /api/login`**
+**`POST /api/login`**
 ---------------------------
+Login a user. 
+
+- Reqeust:
+``` JavaScript
+{
+    'username': 'name',
+    'password': 'password'
+} 
+```
+
+- Response:
+In the HTTP header, a `session` cookie will be return as well as the following content:
+
+``` JavaScript
+{
+    'username': 'name',
+    'user_id': 1,   // any integer indicates id
+    'email': 'email of user'
+} 
+```
+
+**`GET /api/login`**
+---------------------------
+Get information of a current user.
+
 - Response:
 ``` JavaScript
 {
@@ -68,7 +101,7 @@ Even though it won't be mentioned below all responses include
 } 
 ```
 
-**5.2 `GET /api/location`**
+**`GET /api/location`**
 ---------------------------
 - Response:
 ``` JavaScript
@@ -91,8 +124,62 @@ Even though it won't be mentioned below all responses include
 } 
 ```
 
+**`GET /api/location/<id>`**
+---------------------------
+- Response:
+``` JavaScript
+{
+    'id': id of house/room,
+    'name': 'name of house/room',
+    'description': 'description of the house/room',
+    'house_id': id of house where room located, can be null
+    'house_name': name of house.
+    'rooms': [  // if it is a room, there won't be list.
+        {
+            'id': id of house/room,
+            'name': 'name of house/room',
+            'description': 'description of the house/room'  
+        },
+        {
+            'id': id of house/room,
+            'name': 'name of house/room',
+            'description': 'description of the house/room'  
+        },
+        ...
+    ]
+} 
+```
 
-**5.3 `GET /api/device`**
+
+**`GET /api/location/<id>/device`**
+---------------------------
+> When you set `<id>` as 0, the server will return list of devices
+> that are not placed in any location (meaning location_id = Null).
+
+- Response:
+``` JavaScript
+{
+    'devices': [
+        {
+            'id': id of device,             
+            'name': 'friendly name user has defined (e.g. LED4)',
+            'mother_id': id of motherboard device (like arduino), can be null,
+            'location_id': 'name of location where device is, can be null',
+        },
+        {
+            'id': id of device,             
+            'name': 'friendly name user has defined (e.g. LED4)',
+            'mother_id': id of motherboard device (like arduino), can be null,
+            'location_id': 'name of location where device is, can be null',
+        },
+        ...
+    ]
+} 
+```
+
+
+
+**`GET /api/device`**
 -------------------------
 - Response:
 ``` JavaScript
@@ -116,7 +203,7 @@ Even though it won't be mentioned below all responses include
 ```
 
 
-**5.4 `GET /api/device/<id>`**
+**`GET /api/device/<id>`**
 ------------------------------
 - Response:
 ``` JavaScript
@@ -127,27 +214,58 @@ Even though it won't be mentioned below all responses include
     'description': 'description of device',
     'mother_id': id of motherboard (like arduino), can be null,
     'location': 'id of location where device is, can be null', 
-    'location_id': 'name of location where device is, can be null',
-    'time': 'time when value was recorded',
-    'values': {
-        'param1': 'string value', integer, or float,
-        'param2': 'string value', integer, or float,
-        ...
-        'paramN': 'string value', integer, or float,
-    }
+    'location_id': 'name of location where device is, can be null'
+    'children': [
+        {
+            'id': id of child device,             
+            'name': 'friendly name user has defined (e.g. LED4)',
+            'location_id': 'name of location where device is, can be null',
+        },
+        {
+            'id': id of child device,             
+            'name': 'friendly name user has defined (e.g. LED4)',
+            'location_id': 'name of location where device is, can be null',
+        },
+    ]
 }
 ```
 
-**5.5 `GET /api/device/<id>/<parameter>`**
+**`GET /api/device/<id>/parameter`**
+------------------------------
+- Response:
+``` JavaScript
+{
+    'parameters': [
+        {"name": "switch", "type": "boolean", "controllable": false, 
+            "description": "Default switch", 
+            "value": True, "time": '2016-09-20 09:28:47.648621'},
+        {"name": "Green", "type": "integer", "controllable": true, 
+            "description": "Default greed color value",
+            "value": Green, "time": '2016-09-21 07:28:47.648621'},
+        {"name": "temp", "type": "number", "controllable": false,
+            "description": "Default temperature value",
+            "value": 22.4, "time" = '2016-09-20 09:28:47.648621'},
+        {"name": "msg", "type": "string", "controllable": true, 
+            "description": "Default messages to device",
+            "value": 'Hello world?', "time": '2016-09-22 09:28:47.648621'}
+    ]
+}
+```
+
+**`GET /api/device/<id>/parameter/<parameter>`**
 ------------------------------------------
 - Response:
 ``` JavaScript
 {
-    'name': 'name of parameter',
-    'device_id': 'Id of device',
-    'device_name': 'name of device'
-    'values': [list of values can be 'string value', integer, or float],
-    'time': [list of time recorded, index is shard with 'value' list]
+    'parameter': {"name": "temp", "type": "number", "controllable": false, 
+        "description": "Default temperature value"
+        "value": 22.4, "time" = '2016-09-20 09:28:47.648621'} // Here value and time means the latest value and time captured.
+    'data': [
+        {"value": 22.4, "time" = '2016-09-20 09:28:47.648621'},
+        {"value": 23.6, "time" = '2016-09-20 09:27:47.648621'},
+        {"value": 21.5, "time" = '2016-09-20 09:26:47.648621'}
+        ...
+    ]
 }   
 ```
 
