@@ -65,8 +65,33 @@ All response includes `msg` and `errmsg` field for messaging/debugging.
 Even though it won't be mentioned below all responses include 
 `msg` and `errmsg` field for messaging/debugging.
 
+**`POST /api/login`**
+---------------------------
+Login a user. 
+
+- Reqeust:
+``` JavaScript
+{
+    'username': 'name',
+    'password': 'password'
+} 
+```
+
+- Response:
+In the HTTP header, a `session` cookie will be return as well as the following content:
+
+``` JavaScript
+{
+    'username': 'name',
+    'user_id': 1,   // any integer indicates id
+    'email': 'email of user'
+} 
+```
+
 **`GET /api/login`**
 ---------------------------
+Get information of a current user.
+
 - Response:
 ``` JavaScript
 {
@@ -235,8 +260,12 @@ Even though it won't be mentioned below all responses include
     'parameter': {"name": "temp", "type": "number", "controllable": false, 
         "description": "Default temperature value"
         "value": 22.4, "time" = '2016-09-20 09:28:47.648621'} // Here value and time means the latest value and time captured.
-    'values': [list of values can be 'string value', integer, or float],
-    'times': [list of time recorded, index is shard with 'value' list]
+    'data': [
+        {"value": 22.4, "time" = '2016-09-20 09:28:47.648621'},
+        {"value": 23.6, "time" = '2016-09-20 09:27:47.648621'},
+        {"value": 21.5, "time" = '2016-09-20 09:26:47.648621'}
+        ...
+    ]
 }   
 ```
 
