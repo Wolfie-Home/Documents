@@ -217,12 +217,12 @@ Get information of a current user.
     'location_id': 'name of location where device is, can be null'
     'children': [
         {
-            'id': id of child device,             
+            'id': id of child device,
             'name': 'friendly name user has defined (e.g. LED4)',
             'location_id': 'name of location where device is, can be null',
         },
         {
-            'id': id of child device,             
+            'id': id of child device,
             'name': 'friendly name user has defined (e.g. LED4)',
             'location_id': 'name of location where device is, can be null',
         },
@@ -230,37 +230,42 @@ Get information of a current user.
 }
 ```
 
-**`GET /api/device/<id>/parameter`**
+**`GET /api/device/<id>/property`**
 ------------------------------
 - Response:
 ``` JavaScript
 {
-    'parameters': [
+    'properties': [
         {"name": "switch", "type": "boolean", "controllable": false, 
             "description": "Default switch", 
-            "value": True, "time": '2016-09-20 09:28:47.648621'},
+            "record":{"value": True, "time": '2016-09-20 09:28:47.648621'}
+            },
         {"name": "Green", "type": "integer", "controllable": true, 
             "description": "Default greed color value",
-            "value": Green, "time": '2016-09-21 07:28:47.648621'},
+            "record":{"value": Green, "time": '2016-09-21 07:28:47.648621'}
+            },
         {"name": "temp", "type": "number", "controllable": false,
             "description": "Default temperature value",
-            "value": 22.4, "time" = '2016-09-20 09:28:47.648621'},
-        {"name": "msg", "type": "string", "controllable": true, 
+            "record":{"value": 22.4, "time" = '2016-09-20 09:28:47.648621'},
+        }
+        {"name": "msg", "type": "string", "controllable": true,
             "description": "Default messages to device",
-            "value": 'Hello world?', "time": '2016-09-22 09:28:47.648621'}
+            "record":{"value": 'Hello world?', "time": '2016-09-22 09:28:47.648621'}
+        }
     ]
 }
 ```
 
-**`GET /api/device/<id>/parameter/<parameter>`**
+**`GET /api/device/<id>/property/<property>`**
 ------------------------------------------
 - Response:
 ``` JavaScript
 {
-    'parameter': {"name": "temp", "type": "number", "controllable": false, 
+    'property': {"name": "temp", "type": "number", "controllable": false,
         "description": "Default temperature value"
-        "value": 22.4, "time" = '2016-09-20 09:28:47.648621'} // Here value and time means the latest value and time captured.
-    'data': [
+        "record":{"value": 22.4, "time" = '2016-09-20 09:28:47.648621'} // Here value and time means the latest value and time captured.
+    }
+    'records': [
         {"value": 22.4, "time" = '2016-09-20 09:28:47.648621'},
         {"value": 23.6, "time" = '2016-09-20 09:27:47.648621'},
         {"value": 21.5, "time" = '2016-09-20 09:26:47.648621'}
