@@ -299,7 +299,12 @@ Input a record of a device. The format follows `payload.json` in [the schema fol
 {
     "type": "info",
     "content": {
-        "degree": 25
-    }
+        "switch": True,
+        "Green": 125,
+        "temp": 30.23,
+        "msg": "Default"
+        ....
+    },
+    "password": "passphrase" // I know it's insecure.
 }   
 ```
