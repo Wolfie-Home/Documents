@@ -3,7 +3,6 @@
 
 This document is a description of API and webpages.
 
-
 **2 Overview**
 ==============
 
@@ -49,18 +48,17 @@ All response includes `msg` and `errmsg` field for messaging/debugging.
 | `/api/device/<id>`                   | GET    | show detail of device #id                        |
 | `/api/device/<id>`                   | PUT    | Update detail of device (such as name)           |
 | `/api/device/<id>`                   | DELETE | Delete a device                                  |
-| `/api/device/<id>/parameter`         | GET    | Get list of parameters of a device, with the latest values            |
-| `/api/device/<id>/parameter/<name>`  | GET    | Get all records of a parameter of device #id (e.g. `/api/device/1/temp` will show all records of temp)   |
+| `/api/device/<id>/property`         | GET    | Get list of propertys of a device, with the latest values            |
+| `/api/device/<id>/property/<name>`  | GET    | Get all records of a property of device #id (e.g. `/api/device/1/temp` will show all records of temp)   |
 
 **5 Device API list**
 ==================
 
 | URL                                  | Method | Short Description                                |
 |--------------------------------------|:-------|--------------------------------------------------|
-| `/dev_api/device`                    | POST   | Store new data entries of device                 |
+| `/dev_api/device/record`             | POST   | Store new data entries of device                 |
 
-
-**6 Web API Detail**
+**6 Web API Detail/Examples**
 ==============
 Even though it won't be mentioned below all responses include 
 `msg` and `errmsg` field for messaging/debugging.
@@ -217,12 +215,12 @@ Get information of a current user.
     'location_id': 'name of location where device is, can be null'
     'children': [
         {
-            'id': id of child device,             
+            'id': id of child device,
             'name': 'friendly name user has defined (e.g. LED4)',
             'location_id': 'name of location where device is, can be null',
         },
         {
-            'id': id of child device,             
+            'id': id of child device,
             'name': 'friendly name user has defined (e.g. LED4)',
             'location_id': 'name of location where device is, can be null',
         },
@@ -230,37 +228,42 @@ Get information of a current user.
 }
 ```
 
-**`GET /api/device/<id>/parameter`**
+**`GET /api/device/<id>/property`**
 ------------------------------
 - Response:
 ``` JavaScript
 {
-    'parameters': [
+    'properties': [
         {"name": "switch", "type": "boolean", "controllable": false, 
             "description": "Default switch", 
-            "value": True, "time": '2016-09-20 09:28:47.648621'},
+            "record":{"value": True, "time": '2016-09-20 09:28:47.648621'}
+            },
         {"name": "Green", "type": "integer", "controllable": true, 
             "description": "Default greed color value",
-            "value": Green, "time": '2016-09-21 07:28:47.648621'},
+            "record":{"value": Green, "time": '2016-09-21 07:28:47.648621'}
+            },
         {"name": "temp", "type": "number", "controllable": false,
             "description": "Default temperature value",
-            "value": 22.4, "time" = '2016-09-20 09:28:47.648621'},
-        {"name": "msg", "type": "string", "controllable": true, 
+            "record":{"value": 22.4, "time" = '2016-09-20 09:28:47.648621'},
+        }
+        {"name": "msg", "type": "string", "controllable": true,
             "description": "Default messages to device",
-            "value": 'Hello world?', "time": '2016-09-22 09:28:47.648621'}
+            "record":{"value": 'Hello world?', "time": '2016-09-22 09:28:47.648621'}
+        }
     ]
 }
 ```
 
-**`GET /api/device/<id>/parameter/<parameter>`**
+**`GET /api/device/<id>/property/<property>`**
 ------------------------------------------
 - Response:
 ``` JavaScript
 {
-    'parameter': {"name": "temp", "type": "number", "controllable": false, 
+    'property': {"name": "temp", "type": "number", "controllable": false,
         "description": "Default temperature value"
-        "value": 22.4, "time" = '2016-09-20 09:28:47.648621'} // Here value and time means the latest value and time captured.
-    'data': [
+        "record":{"value": 22.4, "time" = '2016-09-20 09:28:47.648621'} // Here value and time means the latest value and time captured.
+    }
+    'records': [
         {"value": 22.4, "time" = '2016-09-20 09:28:47.648621'},
         {"value": 23.6, "time" = '2016-09-20 09:27:47.648621'},
         {"value": 21.5, "time" = '2016-09-20 09:26:47.648621'}
@@ -269,3 +272,25 @@ Get information of a current user.
 }   
 ```
 
+
+**7 Device API Detail/Examples**
+==============
+
+**`POST /dev_api/device/record`**
+--------------------------------
+
+Input a record of a device. The format follows `payload.json` in [the schema folder](schema/)
+
+### Example
+- Input:
+``` JavaScript
+{
+    "type": "info",
+    "content": {
+        "degree": 25
+    },
+    "user": "defaultUser",
+    "location": "defaultRoom1",
+    "device": "defaultDevice4"
+}   
+```
