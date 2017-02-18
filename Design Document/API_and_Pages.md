@@ -54,9 +54,13 @@ All response includes `msg` and `errmsg` field for messaging/debugging.
 **5 Device API list**
 ==================
 
-| URL                                  | Method | Short Description                                |
-|--------------------------------------|:-------|--------------------------------------------------|
-| `/dev_api/device/record`             | POST   | Store new data entries of device                 |
+Although we support both MQTT and HTTP, beware MQTT packet should be sent to
+a MQTT broker, not a main backend. Note that All API for device does not use ids
+for user, location, and device identification.
+
+| URL                                  | Protocol          | Short Description                                |
+|--------------------------------------|:------------------|--------------------------------------------------|
+| `dev_api/<user>/<location>/<device>` | MQTT/HTTP POST    | Store new data entries of device                 |
 
 **6 Web API Detail/Examples**
 ==============
@@ -284,7 +288,7 @@ Get information of a current user.
 **7 Device API Detail/Examples**
 ==============
 
-**`POST /dev_api/device/record`**
+**`dev_api/<user>/<location>/<device>`**
 --------------------------------
 
 Input a record of a device. The format follows `payload.json` in [the schema folder](schema/)
@@ -296,9 +300,6 @@ Input a record of a device. The format follows `payload.json` in [the schema fol
     "type": "info",
     "content": {
         "degree": 25
-    },
-    "user": "defaultUser",
-    "location": "defaultRoom1",
-    "device": "defaultDevice4"
+    }
 }   
 ```
