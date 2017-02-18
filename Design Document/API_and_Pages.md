@@ -3,7 +3,6 @@
 
 This document is a description of API and webpages.
 
-
 **2 Overview**
 ==============
 
@@ -49,18 +48,17 @@ All response includes `msg` and `errmsg` field for messaging/debugging.
 | `/api/device/<id>`                   | GET    | show detail of device #id                        |
 | `/api/device/<id>`                   | PUT    | Update detail of device (such as name)           |
 | `/api/device/<id>`                   | DELETE | Delete a device                                  |
-| `/api/device/<id>/parameter`         | GET    | Get list of parameters of a device, with the latest values            |
-| `/api/device/<id>/parameter/<name>`  | GET    | Get all records of a parameter of device #id (e.g. `/api/device/1/temp` will show all records of temp)   |
+| `/api/device/<id>/property`         | GET    | Get list of propertys of a device, with the latest values            |
+| `/api/device/<id>/property/<name>`  | GET    | Get all records of a property of device #id (e.g. `/api/device/1/temp` will show all records of temp)   |
 
 **5 Device API list**
 ==================
 
 | URL                                  | Method | Short Description                                |
 |--------------------------------------|:-------|--------------------------------------------------|
-| `/dev_api/device`                    | POST   | Store new data entries of device                 |
+| `/dev_api/device/record`             | POST   | Store new data entries of device                 |
 
-
-**6 Web API Detail**
+**6 Web API Detail/Examples**
 ==============
 Even though it won't be mentioned below all responses include 
 `msg` and `errmsg` field for messaging/debugging.
@@ -274,3 +272,25 @@ Get information of a current user.
 }   
 ```
 
+
+**7 Device API Detail/Examples**
+==============
+
+**`POST /dev_api/device/record`**
+--------------------------------
+
+Input a record of a device. The format follows `payload.json` in [the schema folder](schema/)
+
+### Example
+- Input:
+``` JavaScript
+{
+    "type": "info",
+    "content": {
+        "degree": 25
+    },
+    "user": "defaultUser",
+    "location": "defaultRoom1",
+    "device": "defaultDevice4"
+}   
+```
