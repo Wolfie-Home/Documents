@@ -58,9 +58,14 @@ Although we support both MQTT and HTTP, beware MQTT packet should be sent to
 a MQTT broker, not a main backend. Note that All API for device does not use ids
 for user, location, and device identification.
 
-| URL                                  | Protocol          | Short Description                                |
-|--------------------------------------|:------------------|--------------------------------------------------|
-| `dev_api/<user>/<location>/<device>` | MQTT/HTTP POST    | Store new data entries of device                 |
+| URL                                  | Protocol          | Short Description                  |
+|--------------------------------------|:------------------|------------------------------------|
+| `/dev_api/<user>/<location>/<device>` | HTTP POST    | Store new data entries of device        |
+
+| Topic                             | Protocol          | Short Description             |
+|-----------------------------------|:------------------|-------------------------------|
+| `record/<user>/<location>/<device>` | MQTT    | Store new data entries of device     |
+| `control/<user>/<location>/<device>` | MQTT    | This will triggers data    |
 
 **6 Web API Detail/Examples**
 ==============
@@ -288,7 +293,9 @@ Get information of a current user.
 **7 Device API Detail/Examples**
 ==============
 
-**`dev_api/<user>/<location>/<device>`**
+**`POST /dev_api/<user>/<location>/<device>`**
+--------------------------------
+**`MQTT control/<user>/<location>/<device>`**
 --------------------------------
 
 Input a record of a device. The format follows `payload.json` in [the schema folder](schema/)
