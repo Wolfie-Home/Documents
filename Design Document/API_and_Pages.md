@@ -54,9 +54,18 @@ All response includes `msg` and `errmsg` field for messaging/debugging.
 **5 Device API list**
 ==================
 
-| URL                                  | Method | Short Description                                |
-|--------------------------------------|:-------|--------------------------------------------------|
-| `/dev_api/device/record`             | POST   | Store new data entries of device                 |
+Although we support both MQTT and HTTP, beware MQTT packet should be sent to
+a MQTT broker, not a main backend. Note that All API for device does not use ids
+for user, location, and device identification.
+
+| URL                                  | Protocol          | Short Description                  |
+|--------------------------------------|:------------------|------------------------------------|
+| `/dev_api/<user>/<location>/<device>` | HTTP POST    | Store new data entries of device        |
+
+| Topic                             | Protocol          | Short Description             |
+|-----------------------------------|:------------------|-------------------------------|
+| `record/<user>/<location>/<device>` | MQTT    | Store new data entries of device     |
+| `control/<user>/<location>/<device>` | MQTT    | This will triggers data    |
 
 **6 Web API Detail/Examples**
 ==============
@@ -236,19 +245,27 @@ Get information of a current user.
     'properties': [
         {"name": "switch", "type": "boolean", "controllable": false, 
             "description": "Default switch", 
-            "record":{"value": True, "time": '2016-09-20 09:28:47.648621'}
+            "records":[  // array but only one result
+                {"value": True, "time": '2016-09-20 09:28:47.648621'}
+                ]
             },
         {"name": "Green", "type": "integer", "controllable": true, 
             "description": "Default greed color value",
-            "record":{"value": Green, "time": '2016-09-21 07:28:47.648621'}
+            "records":[  // array but only one result
+                {"value": Green, "time": '2016-09-21 07:28:47.648621'}
+                ]
             },
         {"name": "temp", "type": "number", "controllable": false,
             "description": "Default temperature value",
-            "record":{"value": 22.4, "time" = '2016-09-20 09:28:47.648621'},
-        }
+            "records":[  // array but only one result
+                {"value": 22.4, "time" = '2016-09-20 09:28:47.648621'}
+                ]
+            },
         {"name": "msg", "type": "string", "controllable": true,
             "description": "Default messages to device",
-            "record":{"value": 'Hello world?', "time": '2016-09-22 09:28:47.648621'}
+            "records":[  // array but only one result
+                {"value": 'Hello world?', "time": '2016-09-22 09:28:47.648621'}
+                ]
         }
     ]
 }
@@ -259,24 +276,26 @@ Get information of a current user.
 - Response:
 ``` JavaScript
 {
-    'property': {"name": "temp", "type": "number", "controllable": false,
-        "description": "Default temperature value"
-        "record":{"value": 22.4, "time" = '2016-09-20 09:28:47.648621'} // Here value and time means the latest value and time captured.
-    }
+    "name": "msg",
+    "type": "string",
+    "controllable": true,
+    "description": "Default messages to device",
     'records': [
         {"value": 22.4, "time" = '2016-09-20 09:28:47.648621'},
         {"value": 23.6, "time" = '2016-09-20 09:27:47.648621'},
         {"value": 21.5, "time" = '2016-09-20 09:26:47.648621'}
         ...
     ]
-}   
+}
 ```
 
 
 **7 Device API Detail/Examples**
 ==============
 
-**`POST /dev_api/device/record`**
+**`POST /dev_api/<user>/<location>/<device>`**
+--------------------------------
+**`MQTT control/<user>/<location>/<device>`**
 --------------------------------
 
 Input a record of a device. The format follows `payload.json` in [the schema folder](schema/)
@@ -287,10 +306,12 @@ Input a record of a device. The format follows `payload.json` in [the schema fol
 {
     "type": "info",
     "content": {
-        "degree": 25
+        "switch": True,
+        "Green": 125,
+        "temp": 30.23,
+        "msg": "Default"
+        ....
     },
-    "user": "defaultUser",
-    "location": "defaultRoom1",
-    "device": "defaultDevice4"
+    "password": "passphrase" // I know it's insecure.
 }   
 ```

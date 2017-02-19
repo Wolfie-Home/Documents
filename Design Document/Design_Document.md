@@ -96,7 +96,7 @@ for both obtaining data and control device modules, we use following topic
 format: 
 
 ```
-com/(user)/(location)/(device)
+dev_api/<user>/<location>/<device>
 ```
 
 The role of this topic is just addressing 
